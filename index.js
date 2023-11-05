@@ -35,24 +35,24 @@ async function run() {
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
 
-        // const itemsCollaction = client.db("AyenTraders").collection('items')
+        const AddassignmentCollaction = client.db("GroupStudy").collection('Addassignment')
         // const MyCartCollaction = client.db("AyenTraders").collection('mycart')
         // const BillsCollaction = client.db("AyenTraders").collection('bills')
 
 
-        // app.post('/items' , async (req, res) => {
-        //     const addProduct = req.body
-        //     console.log(addProduct);
-        //     const result = await itemsCollaction.insertOne(addProduct)
-        //     res.send(result)
-        //     console.log(result);
-        // })
+        app.post('/addassignment' , async (req, res) => {
+            const addProduct = req.body
+            console.log(addProduct);
+            const result = await AddassignmentCollaction.insertOne(addProduct)
+            res.send(result)
+            console.log(result);
+        })
 
-        // app.get('/items', async (req, res) => {
-        //     const cursor = itemsCollaction.find()
-        //     const result = await cursor.toArray()
-        //     res.send(result)
-        // })
+        app.get('/addassignment', async (req, res) => {
+            const cursor = AddassignmentCollaction.find()
+            const result = await cursor.toArray()
+            res.send(result)
+        })
         
         // app.get('/items/:id' , async (req, res) => {
         //     const id = req.params.id
