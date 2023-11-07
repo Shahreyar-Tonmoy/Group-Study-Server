@@ -41,6 +41,16 @@ async function run() {
         // const BillsCollaction = client.db("AyenTraders").collection('bills')
 
 
+        
+        
+
+        
+
+
+
+        
+
+
         app.post('/addassignment' , async (req, res) => {
             const addProduct = req.body
             console.log(addProduct);
@@ -48,6 +58,36 @@ async function run() {
             res.send(result)
             console.log(result);
         })
+
+        app.get('/submitemail', async(req,res)=>{
+            console.log(req.query.email);
+            let query = {}
+            if(req.query?.email){
+                query = {email: req.query.email }
+            }
+            const result = await SubmitassignmentCollaction.find(query).toArray()
+            res.send(result)
+           })
+
+
+
+
+        app.get('/addassignment', async (req, res) => {
+            const cursor = AddassignmentCollaction.find()
+            const result = await cursor.toArray()
+            res.send(result)
+        })
+
+        app.get('/addassignment/:id' , async (req, res) => {
+            const id = req.params.id
+            const query = { _id: new ObjectId(id) }
+            const result = await AddassignmentCollaction.findOne(query)
+            res.send(result)
+
+        })
+
+
+
         app.post('/submit' , async (req, res) => {
             const addProduct = req.body
             console.log(addProduct);
@@ -56,17 +96,12 @@ async function run() {
             console.log(result);
         })
 
-        app.get('/addassignment', async (req, res) => {
-            const cursor = AddassignmentCollaction.find()
-            const result = await cursor.toArray()
-            res.send(result)
-        })
         app.get('/submit', async (req, res) => {
             const cursor = SubmitassignmentCollaction.find()
             const result = await cursor.toArray()
             res.send(result)
         })
-        
+
         app.get('/submit/:id' , async (req, res) => {
             const id = req.params.id
             const query = { _id: new ObjectId(id) }
@@ -74,13 +109,22 @@ async function run() {
             res.send(result)
 
         })
-        app.get('/addassignment/:id' , async (req, res) => {
-            const id = req.params.id
-            const query = { _id: new ObjectId(id) }
-            const result = await AddassignmentCollaction.findOne(query)
-            res.send(result)
 
-        })
+        app.get('/submitstatus', async(req,res)=>{
+            console.log(req.query.Status);
+            let query = {}
+            if(req.query?.Status){
+                query = {Status: req.query.Status }
+            }
+            const result = await SubmitassignmentCollaction.find(query).toArray()
+            res.send(result)
+           })
+     
+
+
+        
+       
+        
         // app.get('/mycart' , async (req, res) => {
         //     const cursor = MyCartCollaction.find()
         //     const result = await cursor.toArray()
@@ -121,12 +165,12 @@ async function run() {
         
         
         
-        // app.delete('/mycart/:id' , async (req, res)=>{
-        //     const id =req.params.id
-        //     const query ={ _id: new ObjectId(id) }
-        //     const result = await MyCartCollaction.deleteOne(query)
-        //     res.send(result)
-        // })
+        app.delete('/addassignment/:id' , async (req, res)=>{
+            const id =req.params.id
+            const query ={ _id: new ObjectId(id) }
+            const result = await AddassignmentCollaction.deleteOne(query)
+            res.send(result)
+        })
 
         // // post opciton
         
@@ -155,8 +199,38 @@ async function run() {
             const result = await AddassignmentCollaction.updateOne(filter, Updates, options)
             res.send(result)
         })
+        app.put('/submit/:id' , async (req, res) => {
+            const id = req.params.id
+            const filter = { _id: new ObjectId(id) }
+            const options = { upsert: true }
+            const UpdateProduct = req.body
+            const Updates = {
+                $set: {
+                   
+                    Title: UpdateProduct.Title,
+                    AssignmentDifficulty: UpdateProduct.AssignmentDifficulty,
+                    Marks: UpdateProduct.Marks,
+                    Description: UpdateProduct.Description,
+                    Date: UpdateProduct.Date,
+                    email: UpdateProduct.email,
+                    ImageURL: UpdateProduct.ImageURL,
+                    Status: UpdateProduct.Status,
+                    Mark: UpdateProduct.Mark,
+                    Feedback: UpdateProduct.Feedback
+                    
+                }
 
-     
+
+
+            }
+            const result = await SubmitassignmentCollaction.updateOne(filter, Updates, options)
+            res.send(result)
+        })
+
+
+
+
+        
         
 
     
