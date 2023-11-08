@@ -1,15 +1,16 @@
 const express = require('express');
+require('dotenv').config()
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
-require('dotenv').config()
+
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb')
 const app = express()
 const port = process.env.PORT || 5000
 
 
 app.use(cors({
-    origin: ["http://localhost:5173"],
+    origin: ["https://snazzy-cuchufli-8bfc1a.netlify.app","http://localhost:5173"],
     credentials: true
 }))
 app.use(express.json())
@@ -37,7 +38,7 @@ const client = new MongoClient(uri, {
 
 
 const logger = async (req, res, next) => {
-    console.log("called:", req.hostve)
+    
 
 
     next()
@@ -79,7 +80,7 @@ async function run() {
         const AddassignmentCollaction = client.db("GroupStudy").collection('Addassignment')
         const SubmitassignmentCollaction = client.db("GroupStudy").collection('SubmitAssignment')
 
-        // const BillsCollaction = client.db("AyenTraders").collection('bills')
+        
 
 
 
@@ -88,20 +89,21 @@ async function run() {
             const user = req.body;
             console.log(user);
             const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" })
+            console.log(token);
 
 
-            res.cookie("token",token,{
-                httpOnly: true,
-                secure: false,
+            // res.cookie("token",token,{
+            //     httpOnly: true,
+            //     secure: false,
                 
-            })
+            // })
 
-            // res
-            //     .cookie('token', token, {
-            //         httpOnly: true,
-            //         secure: process.env.NODE_ENV === 'production',
-            //         sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-            //     })
+            res
+                .cookie('token', token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+                })
 
 
                 .send({ success: true })
@@ -121,7 +123,16 @@ async function run() {
     app.post('/logout', async (req, res) => {
         const user = req.body
         console.log('loginoutUser:', user);
-        res.clearCookie('token', { maxAge: 0 }).send({ success: true })
+        res
+        .clearCookie('token', {
+            maxAge: 0,
+            secure: process.env.NODE_ENV === 'production' ? true : false,
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+        })
+        .send({ status: true })
+
+
+        // res.clearCookie('token', { maxAge: 0 }).send({ success: true })
     })
 
     app.get("/addassignmentCount", async (req, res) => {
@@ -148,7 +159,7 @@ async function run() {
     })
 
     app.get('/submitemail', logger, verifyToken, async (req, res) => {
-        // console.log(req.query.email);
+        console.log(req.query.email);
         console.log("token", req.cookies.token);
         console.log(req.query, req.user);
 
@@ -166,35 +177,7 @@ async function run() {
     })
 
 
-    app.get('/easy,', logger, async (req, res) => {
-        // console.log(req.query.Status);
-        let query = {}
-        if (req.query?.AssignmentDifficulty) {
-            query = { AssignmentDifficulty: req.query.AssignmentDifficulty }
-        }
-        const result = await AddassignmentCollaction.find(query).toArray()
-        res.send(result)
-    })
-
-    app.get('/medium', logger, async (req, res) => {
-        // console.log(req.query.Status);
-        let query = {}
-        if (req.query?.AssignmentDifficulty) {
-            query = { AssignmentDifficulty: req.query.AssignmentDifficulty }
-        }
-        const result = await AddassignmentCollaction.find(query).toArray()
-        res.send(result)
-    })
-
-    app.get('/hard', logger, async (req, res) => {
-        // console.log(req.query.Status);
-        let query = {}
-        if (req.query?.AssignmentDifficulty) {
-            query = { AssignmentDifficulty: req.query.AssignmentDifficulty }
-        }
-        const result = await AddassignmentCollaction.find(query).toArray()
-        res.send(result)
-    })
+ 
 
 
 
@@ -303,7 +286,12 @@ async function run() {
     //     res.send(result)
     //     console.log(result);
     // })
-    
+    // app.get('/bills' , async (req, res) => {
+    //     const cursor = BillsCollaction.find()
+    //     const result = await cursor.toArray()
+    //     res.send(result)
+    // })
+
 
 
     app.delete('/addassignment/:id', logger, async (req, res) => {
