@@ -166,6 +166,37 @@ async function run() {
     })
 
 
+    app.get('/easy,', logger, async (req, res) => {
+        // console.log(req.query.Status);
+        let query = {}
+        if (req.query?.AssignmentDifficulty) {
+            query = { AssignmentDifficulty: req.query.AssignmentDifficulty }
+        }
+        const result = await AddassignmentCollaction.find(query).toArray()
+        res.send(result)
+    })
+
+    app.get('/medium', logger, async (req, res) => {
+        // console.log(req.query.Status);
+        let query = {}
+        if (req.query?.AssignmentDifficulty) {
+            query = { AssignmentDifficulty: req.query.AssignmentDifficulty }
+        }
+        const result = await AddassignmentCollaction.find(query).toArray()
+        res.send(result)
+    })
+
+    app.get('/hard', logger, async (req, res) => {
+        // console.log(req.query.Status);
+        let query = {}
+        if (req.query?.AssignmentDifficulty) {
+            query = { AssignmentDifficulty: req.query.AssignmentDifficulty }
+        }
+        const result = await AddassignmentCollaction.find(query).toArray()
+        res.send(result)
+    })
+
+
 
 
 
@@ -225,6 +256,15 @@ async function run() {
         const result = await SubmitassignmentCollaction.find(query).toArray()
         res.send(result)
     })
+    app.get('/submitstatus', logger, async (req, res) => {
+        // console.log(req.query.Status);
+        let query = {}
+        if (req.query?.Status) {
+            query = { Status: req.query.Status }
+        }
+        const result = await SubmitassignmentCollaction.find(query).toArray()
+        res.send(result)
+    })
 
 
 
@@ -263,12 +303,7 @@ async function run() {
     //     res.send(result)
     //     console.log(result);
     // })
-    // app.get('/bills' , async (req, res) => {
-    //     const cursor = BillsCollaction.find()
-    //     const result = await cursor.toArray()
-    //     res.send(result)
-    // })
-
+    
 
 
     app.delete('/addassignment/:id', logger, async (req, res) => {
