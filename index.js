@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000
 
 
 app.use(cors({
-    origin: ["https://snazzy-cuchufli-8bfc1a.netlify.app","http://localhost:5173"],
+    origin: ["https://kaleidoscopic-kashata-ce2b3d.netlify.app","http://localhost:5173"],
     credentials: true
 }))
 app.use(express.json())
@@ -252,45 +252,6 @@ async function run() {
 
 
 
-
-
-    // app.get('/mycart' , async (req, res) => {
-    //     const cursor = MyCartCollaction.find()
-    //     const result = await cursor.toArray()
-    //     res.send(result)
-    // })
-    // app.post('/mycart' , async (req, res) => {
-    //     const addProduct = req.body
-    //     console.log(addProduct);
-    //     const result = await MyCartCollaction.insertOne(addProduct)
-    //     res.send(result)
-    // })
-    // app.get('/mycart/:id' , async (req, res) => {
-    //     const id = req.params.id
-    //     const query = { _id: new ObjectId(id) }
-    //     const result = await MyCartCollaction.findOne(query)
-    //     res.send(result)
-
-    // })
-    // app.get('/mycart/:id' , async (req, res) => {
-    //     const id = req.params.id
-    //     const query = { _id: new ObjectId(id) }
-    //     const result = await MyCartCollaction.findOne(query)
-    //     res.send(result)
-
-    // })
-    // app.post('/bills' , async (req, res) => {
-    //     const addProduct = req.body
-    //     console.log(addProduct);
-    //     const result = await BillsCollaction.insertOne(addProduct)
-    //     res.send(result)
-    //     console.log(result);
-    // })
-    // app.get('/bills' , async (req, res) => {
-    //     const cursor = BillsCollaction.find()
-    //     const result = await cursor.toArray()
-    //     res.send(result)
-    // })
 
 
 
